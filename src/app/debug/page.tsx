@@ -4,9 +4,23 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, CheckCircle, XCircle, AlertCircle, Database, RefreshCw } from 'lucide-react'
 
+interface DbStatus {
+  connected: boolean
+  error?: string
+  env?: any
+}
+
+interface ApiStatus {
+  [key: string]: {
+    status: string
+    count?: number
+    error?: string
+  }
+}
+
 export default function DebugPage() {
-  const [dbStatus, setDbStatus] = useState<any>(null)
-  const [apiStatus, setApiStatus] = useState<any>({})
+  const [dbStatus, setDbStatus] = useState<DbStatus | null>(null)
+  const [apiStatus, setApiStatus] = useState<ApiStatus>({})
   const [loading, setLoading] = useState(false)
 
   // データベース接続状況を確認
