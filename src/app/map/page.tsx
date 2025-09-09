@@ -303,7 +303,7 @@ export default function MapPage() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">地域の特徴</h3>
                   <div className="flex flex-wrap gap-2">
-                    {selectedRegion.features.map((feature, index) => (
+                    {selectedRegion.features.map((feature: any, index: number) => (
                       <span
                         key={index}
                         className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm"
@@ -425,7 +425,7 @@ export default function MapPage() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">特徴</h3>
                   <div className="flex flex-wrap gap-2">
-                    {selectedHospital.features.map((feature, index) => (
+                    {selectedHospital.features.map((feature: any, index: number) => (
                       <span
                         key={index}
                         className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
