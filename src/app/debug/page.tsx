@@ -7,6 +7,7 @@ import { ArrowLeft, CheckCircle, XCircle, AlertCircle, Database, RefreshCw } fro
 interface DbStatus {
   connected: boolean
   error?: string
+  reason?: string
   env?: any
 }
 
