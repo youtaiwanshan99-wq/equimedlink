@@ -7,7 +7,7 @@ export async function GET() {
     
     const now = Date.now()
 
-    async function upsert(col: string, id: string, data: any) {
+    const upsert = async (col: string, id: string, data: any) => {
       await db.collection(col).doc(id).set({ id, ...data, updated_at: now, created_at: data.created_at || now }, { merge: true })
     }
 
