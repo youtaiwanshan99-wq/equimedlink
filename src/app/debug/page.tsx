@@ -38,7 +38,7 @@ export default function DebugPage() {
   const checkApiConnections = async () => {
     setLoading(true)
     const apis = ['programs', 'regions', 'hospitals', 'shifts', 'testimonials']
-    const results = {}
+    const results: ApiStatus = {}
 
     for (const api of apis) {
       try {
