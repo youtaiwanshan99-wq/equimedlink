@@ -84,7 +84,7 @@ export default function DebugPage() {
     checkApiConnections()
   }, [])
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
       case 'success':
         return <CheckCircle className="h-5 w-5 text-green-500" />
