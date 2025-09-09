@@ -95,7 +95,7 @@ export default function DebugPage() {
     }
   }
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'success':
         return 'bg-green-100 text-green-800'
