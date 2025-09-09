@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { ArrowLeft, CheckCircle, XCircle, AlertCircle, Database, RefreshCw } from 'lucide-react'
 
 export default function DebugPage() {
-  const [dbStatus, setDbStatus] = useState(null)
-  const [apiStatus, setApiStatus] = useState({})
+  const [dbStatus, setDbStatus] = useState<any>(null)
+  const [apiStatus, setApiStatus] = useState<any>({})
   const [loading, setLoading] = useState(false)
 
   // データベース接続状況を確認
@@ -15,7 +15,7 @@ export default function DebugPage() {
       const response = await fetch('/api/debug/db')
       const data = await response.json()
       setDbStatus(data)
-    } catch (error) {
+    } catch (error: any) {
       setDbStatus({ connected: false, error: error.message })
     }
   }
