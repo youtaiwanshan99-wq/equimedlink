@@ -159,11 +159,24 @@ export default function MapPage() {
                     return null
                   }
                   
-                  // 日本地図用の座標変換（より正確な位置）
-                  // 日本の経度範囲: 129°E - 146°E (17度)
-                  // 日本の緯度範囲: 24°N - 46°N (22度)
-                  const x = ((region.lng - 129) / 17) * 100 // 経度を0-100%に変換
-                  const y = ((46 - region.lat) / 22) * 100 // 緯度を0-100%に変換
+                  // 日本地図用の座標変換（実際の地図画像に合わせて調整）
+                  // 地図画像の実際の表示範囲を考慮
+                  let x, y
+                  
+                  // 地域別の特別処理
+                  if (region.name.includes('九州') || region.name.includes('沖縄')) {
+                    // 九州・沖縄は地図の右下に小さく表示される
+                    x = 90 + ((region.lng - 127) / 4) * 6 // 90-96%の範囲
+                    y = 85 + ((33 - region.lat) / 9) * 10 // 85-95%の範囲
+                  } else if (region.name.includes('北海道')) {
+                    // 北海道は地図の上部に表示される
+                    x = 15 + ((region.lng - 140) / 6) * 20 // 15-35%の範囲
+                    y = 5 + ((46 - region.lat) / 4) * 15 // 5-20%の範囲
+                  } else {
+                    // 本州・四国
+                    x = 10 + ((region.lng - 128) / 18) * 75 // 10-85%の範囲
+                    y = 15 + ((46 - region.lat) / 22) * 65 // 15-80%の範囲
+                  }
                   
                   console.log(`Region ${region.name}: lat=${region.lat}, lng=${region.lng}, x=${x}%, y=${y}%`)
                   
@@ -196,8 +209,23 @@ export default function MapPage() {
                     return null
                   }
                   
-                  const x = ((hospital.lng - 129) / 17) * 100
-                  const y = ((46 - hospital.lat) / 22) * 100
+                  // 病院の座標変換（地域と同じロジック）
+                  let x, y
+                  
+                  // 地域別の特別処理
+                  if (hospital.lat < 33 && hospital.lng < 131) {
+                    // 九州・沖縄は地図の右下に小さく表示される
+                    x = 90 + ((hospital.lng - 127) / 4) * 6 // 90-96%の範囲
+                    y = 85 + ((33 - hospital.lat) / 9) * 10 // 85-95%の範囲
+                  } else if (hospital.lat > 42) {
+                    // 北海道は地図の上部に表示される
+                    x = 15 + ((hospital.lng - 140) / 6) * 20 // 15-35%の範囲
+                    y = 5 + ((46 - hospital.lat) / 4) * 15 // 5-20%の範囲
+                  } else {
+                    // 本州・四国
+                    x = 10 + ((hospital.lng - 128) / 18) * 75 // 10-85%の範囲
+                    y = 15 + ((46 - hospital.lat) / 22) * 65 // 15-80%の範囲
+                  }
                   
                   console.log(`Hospital ${hospital.name}: lat=${hospital.lat}, lng=${hospital.lng}, x=${x}%, y=${y}%`)
                   
