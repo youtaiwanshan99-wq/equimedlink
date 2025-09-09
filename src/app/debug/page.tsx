@@ -13,7 +13,9 @@ interface DbStatus {
 interface ApiStatus {
   [key: string]: {
     status: string
-    count?: number
+    statusCode?: number
+    dataCount?: number | string
+    sample?: any
     error?: string
   }
 }
