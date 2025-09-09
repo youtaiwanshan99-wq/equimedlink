@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { ArrowLeft, Star, Clock, Users, Award, ChevronRight, Play, CheckCircle, Heart, MessageCircle, Phone, Mail, Menu, X } from 'lucide-react'
 
 export default function ProgramsPage() {
-  const [programs, setPrograms] = useState([])
-  const [selectedProgram, setSelectedProgram] = useState(null)
+  const [programs, setPrograms] = useState<any[]>([])
+  const [selectedProgram, setSelectedProgram] = useState<any>(null)
   const [showApplicationModal, setShowApplicationModal] = useState(false)
   const [activeFilter, setActiveFilter] = useState('all')
 
@@ -156,7 +156,7 @@ export default function ProgramsPage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array.isArray(filteredPrograms) && filteredPrograms.length > 0 ? filteredPrograms.map((program) => (
+          {Array.isArray(filteredPrograms) && filteredPrograms.length > 0 ? filteredPrograms.map((program: any) => (
             <div
               key={program.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
@@ -184,7 +184,7 @@ export default function ProgramsPage() {
                   <span className="text-lg font-semibold text-blue-600">{program.price_range}</span>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {program.features.map((feature, index) => (
+                  {program.features.map((feature: any, index: number) => (
                     <span
                       key={index}
                       className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs"
@@ -263,7 +263,7 @@ export default function ProgramsPage() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">特徴</h3>
                   <div className="flex flex-wrap gap-2">
-                    {selectedProgram.features.map((feature, index) => (
+                    {selectedProgram.features.map((feature: any, index: number) => (
                       <span
                         key={index}
                         className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"

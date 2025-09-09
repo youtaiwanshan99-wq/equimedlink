@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { ArrowLeft, Star, Clock, Users, Award, ChevronRight, Play, CheckCircle, Heart, MessageCircle, Phone, Mail, Menu, X, AlertCircle, Car, Train, Home, Calendar, DollarSign, MapPin } from 'lucide-react'
 
 export default function ShiftsPage() {
-  const [shifts, setShifts] = useState([])
-  const [hospitals, setHospitals] = useState([])
-  const [selectedHospital, setSelectedHospital] = useState(null)
+  const [shifts, setShifts] = useState<any[]>([])
+  const [hospitals, setHospitals] = useState<any[]>([])
+  const [selectedHospital, setSelectedHospital] = useState<any>(null)
   const [showApplicationModal, setShowApplicationModal] = useState(false)
 
   // データ取得
@@ -94,7 +94,7 @@ export default function ShiftsPage() {
         </div>
         
         <div className="space-y-6">
-          {Array.isArray(shifts) && shifts.length > 0 ? shifts.map((shift) => {
+          {Array.isArray(shifts) && shifts.length > 0 ? shifts.map((shift: any) => {
             const hospital = Array.isArray(hospitals) ? hospitals.find(h => h.id === shift.hospital_id) : null
             return (
               <div key={shift.id} className="bg-white rounded-lg shadow-md p-6">
@@ -223,7 +223,7 @@ export default function ShiftsPage() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">特徴</h3>
                   <div className="flex flex-wrap gap-2">
-                    {selectedHospital.features.map((feature, index) => (
+                    {selectedHospital.features.map((feature: any, index: number) => (
                       <span
                         key={index}
                         className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
@@ -240,7 +240,7 @@ export default function ShiftsPage() {
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">募集中のシフト</h2>
             <div className="space-y-4">
-              {Array.isArray(hospitalShifts) && hospitalShifts.length > 0 ? hospitalShifts.map((shift) => (
+              {Array.isArray(hospitalShifts) && hospitalShifts.length > 0 ? hospitalShifts.map((shift: any) => (
                 <div key={shift.id} className="bg-white rounded-lg shadow-md p-6">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">

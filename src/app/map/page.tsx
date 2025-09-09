@@ -153,7 +153,7 @@ export default function MapPage() {
               
               {/* 地域マーカーを地図上に配置 */}
               <div className="absolute inset-0">
-                {Array.isArray(regions) && regions.length > 0 ? regions.map((region) => {
+                {Array.isArray(regions) && regions.length > 0 ? regions.map((region: any) => {
                   if (!region.lat || !region.lng) {
                     console.log('Region missing coordinates:', region)
                     return null
@@ -190,7 +190,7 @@ export default function MapPage() {
                 )}
                 
                 {/* 病院マーカー */}
-                {Array.isArray(hospitals) && hospitals.length > 0 ? hospitals.map((hospital) => {
+                {Array.isArray(hospitals) && hospitals.length > 0 ? hospitals.map((hospital: any) => {
                   if (!hospital.lat || !hospital.lng) {
                     console.log('Hospital missing coordinates:', hospital)
                     return null
@@ -246,7 +246,7 @@ export default function MapPage() {
         <div className="absolute bottom-4 left-4 w-80 bg-white rounded-lg shadow-lg p-4 max-h-64 overflow-y-auto z-20">
           <h3 className="font-semibold text-gray-900 mb-3">地域一覧</h3>
           <div className="space-y-2">
-            {Array.isArray(regions) && regions.length > 0 ? regions.map((region) => (
+            {Array.isArray(regions) && regions.length > 0 ? regions.map((region: any) => (
               <div
                 key={region.id}
                 className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer"
@@ -332,7 +332,7 @@ export default function MapPage() {
               この地域の病院 ({regionHospitals.length}件)
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array.isArray(regionHospitals) && regionHospitals.length > 0 ? regionHospitals.map((hospital) => (
+              {Array.isArray(regionHospitals) && regionHospitals.length > 0 ? regionHospitals.map((hospital: any) => (
                 <div
                   key={hospital.id}
                   className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"

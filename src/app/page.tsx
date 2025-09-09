@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react'
 import { ArrowRight, Star, Clock, Users, Award, ChevronRight, Play, CheckCircle, Heart, MessageCircle, Phone, Mail, Menu, X, MapPin, Calendar, DollarSign, Bell, Settings, AlertCircle } from 'lucide-react'
 
 export default function HomePage() {
-  const [programs, setPrograms] = useState([])
-  const [regions, setRegions] = useState([])
-  const [hospitals, setHospitals] = useState([])
-  const [shifts, setShifts] = useState([])
-  const [testimonials, setTestimonials] = useState([])
+  const [programs, setPrograms] = useState<any[]>([])
+  const [regions, setRegions] = useState<any[]>([])
+  const [hospitals, setHospitals] = useState<any[]>([])
+  const [shifts, setShifts] = useState<any[]>([])
+  const [testimonials, setTestimonials] = useState<any[]>([])
 
   // データ取得
   useEffect(() => {
@@ -139,7 +139,7 @@ export default function HomePage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array.isArray(programs) && programs.length > 0 ? programs.slice(0, 3).map((program) => (
+          {Array.isArray(programs) && programs.length > 0 ? programs.slice(0, 3).map((program: any) => (
             <div
               key={program.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
@@ -168,7 +168,7 @@ export default function HomePage() {
                   <span className="text-lg font-semibold text-blue-600">{program.price_range}</span>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {program.features.slice(0, 2).map((feature, index) => (
+                  {program.features.slice(0, 2).map((feature: any, index: number) => (
                     <span
                       key={index}
                       className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs"
@@ -209,7 +209,7 @@ export default function HomePage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array.isArray(regions) && regions.length > 0 ? regions.slice(0, 6).map((region) => (
+          {Array.isArray(regions) && regions.length > 0 ? regions.slice(0, 6).map((region: any) => (
             <div
               key={region.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
@@ -229,7 +229,7 @@ export default function HomePage() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{region.name}</h3>
                 <p className="text-gray-600 mb-4">{region.description}</p>
                 <div className="flex flex-wrap gap-2">
-                  {region.features.slice(0, 2).map((feature, index) => (
+                  {region.features.slice(0, 2).map((feature: any, index: number) => (
                     <span
                       key={index}
                       className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs"
@@ -318,7 +318,7 @@ export default function HomePage() {
           </div>
           
           <div className="space-y-6">
-            {urgentShifts.map((shift) => {
+            {urgentShifts.map((shift: any) => {
               const hospital = Array.isArray(hospitals) ? hospitals.find(h => h.id === shift.hospital_id) : null
               const shiftDate = new Date(shift.start_at)
               const isToday = shiftDate.toDateString() === now.toDateString()
@@ -404,7 +404,7 @@ export default function HomePage() {
         </div>
         
         <div className="space-y-6">
-          {Array.isArray(shifts) && shifts.length > 0 ? shifts.slice(0, 3).map((shift) => {
+          {Array.isArray(shifts) && shifts.length > 0 ? shifts.slice(0, 3).map((shift: any) => {
             const hospital = Array.isArray(hospitals) ? hospitals.find(h => h.id === shift.hospital_id) : null
             return (
               <div 
@@ -485,7 +485,7 @@ export default function HomePage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array.isArray(testimonials) && testimonials.length > 0 ? testimonials.slice(0, 3).map((testimonial) => (
+          {Array.isArray(testimonials) && testimonials.length > 0 ? testimonials.slice(0, 3).map((testimonial: any) => (
             <div key={testimonial.id} className="bg-white rounded-lg shadow-md p-6">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
