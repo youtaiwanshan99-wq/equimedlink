@@ -1,5 +1,6 @@
 export type Doctor = {
   id: string
+  name?: string | null
   years_of_exp?: number | null
   skills?: string[] | null
   ehr_experience?: string[] | null
