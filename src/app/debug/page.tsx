@@ -73,7 +73,7 @@ export default function DebugPage() {
       alert(`シードデータの投入が完了しました: ${data.message}`)
       // データ投入後にAPI接続状況を再確認
       await checkApiConnections()
-    } catch (error) {
+    } catch (error: any) {
       alert(`シードデータの投入に失敗しました: ${error.message}`)
     }
     setLoading(false)
