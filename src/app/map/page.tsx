@@ -5,10 +5,10 @@ import Link from 'next/link'
 import { ArrowLeft, Star, Clock, Users, Award, ChevronRight, Play, CheckCircle, Heart, MessageCircle, Phone, Mail, Menu, X, MapPin, Navigation } from 'lucide-react'
 
 export default function MapPage() {
-  const [regions, setRegions] = useState([])
-  const [hospitals, setHospitals] = useState([])
-  const [selectedRegion, setSelectedRegion] = useState(null)
-  const [selectedHospital, setSelectedHospital] = useState(null)
+  const [regions, setRegions] = useState<any[]>([])
+  const [hospitals, setHospitals] = useState<any[]>([])
+  const [selectedRegion, setSelectedRegion] = useState<any>(null)
+  const [selectedHospital, setSelectedHospital] = useState<any>(null)
 
   // データ取得
   useEffect(() => {
