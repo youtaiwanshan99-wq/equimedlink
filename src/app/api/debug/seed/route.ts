@@ -1,14 +1,16 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/firestore'
-
-const now = Date.now()
-
-async function upsert(col: string, id: string, data: any) {
-  await db.collection(col).doc(id).set({ id, ...data, updated_at: now, created_at: data.created_at || now }, { merge: true })
-}
 
 export async function GET() {
   try {
+    // 動的インポートでFirebaseを読み込み
+    const { db } = await import('@/lib/firestore')
+    
+    const now = Date.now()
+
+    async function upsert(col: string, id: string, data: any) {
+      await db.collection(col).doc(id).set({ id, ...data, updated_at: now, created_at: data.created_at || now }, { merge: true })
+    }
+
     // Hospitals
     const hospitals = [
       { id: 'h1', name: '地方総合病院A', lat: 36.5551, lng: 139.8828, ehr_type: 'HOPE' },

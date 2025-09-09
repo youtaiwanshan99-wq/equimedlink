@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/firestore'
 
 export async function GET() {
   const env = {
@@ -15,6 +14,8 @@ export async function GET() {
   }
 
   try {
+    // 動的インポートでFirebaseを読み込み
+    const { db } = await import('@/lib/firestore')
     const hospitalsSnap = await db.collection('hospitals').get()
     const shiftsSnap = await db.collection('shifts').get()
     return NextResponse.json({

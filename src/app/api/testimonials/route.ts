@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/firestore'
 
 export async function GET() {
   try {
+    // 動的インポートでFirebaseを読み込み
+    const { db } = await import('@/lib/firestore')
+    
     // Firestoreから体験談データを取得
     const testimonialsSnapshot = await db.collection('testimonials').get()
     const testimonials = testimonialsSnapshot.docs.map(doc => doc.data())

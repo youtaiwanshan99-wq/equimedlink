@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/firestore'
 
 // ダミーデータ
 const dummyHospitals = [
@@ -113,6 +112,9 @@ export async function GET() {
       return NextResponse.json([...dummyShifts, ...urgentDummyShifts])
     }
 
+    // 動的インポートでFirebaseを読み込み
+    const { db } = await import('@/lib/firestore')
+    
     // Firestore から取得
     const shiftsSnap = await db.collection('shifts').get()
     const shifts = shiftsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
