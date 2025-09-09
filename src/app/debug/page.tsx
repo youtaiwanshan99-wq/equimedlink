@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { ArrowLeft, CheckCircle, XCircle, AlertCircle, Database, RefreshCw } from 'lucide-react'
 
 export default function DebugPage() {
@@ -96,12 +97,12 @@ export default function DebugPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <a
-                href="/"
-                className="mr-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <ArrowLeft className="h-5 w-5" />
-              </a>
+            <Link
+              href="/"
+              className="mr-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Link>
               <div className="flex items-center">
                 <Database className="h-6 w-6 mr-2 text-blue-600" />
                 <h1 className="text-xl font-bold text-gray-900">デバッグページ</h1>
@@ -280,12 +281,12 @@ export default function DebugPage() {
             >
               サンプルデータ投入
             </button>
-            <a
+            <Link
               href="/"
               className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
             >
               ホームに戻る
-            </a>
+            </Link>
           </div>
         </div>
       </main>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { ArrowLeft, Star, Clock, Users, Award, ChevronRight, Play, CheckCircle, Heart, MessageCircle, Phone, Mail, Menu, X, AlertCircle, Car, Train, Home, Calendar, DollarSign, MapPin } from 'lucide-react'
 
 export default function ShiftsPage() {
@@ -54,12 +55,12 @@ export default function ShiftsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <a
+            <Link
               href="/"
               className="mr-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
-            </a>
+            </Link>
             <div className="flex items-center">
               <h1 className="text-xl font-bold text-gray-900">求人一覧</h1>
             </div>
