@@ -52,7 +52,7 @@ export default function DebugPage() {
           dataCount: Array.isArray(data) ? data.length : 'N/A',
           sample: Array.isArray(data) && data.length > 0 ? data[0] : null
         }
-      } catch (error) {
+      } catch (error: any) {
         results[api] = {
           status: 'error',
           error: error.message
