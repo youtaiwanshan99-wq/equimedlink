@@ -90,7 +90,7 @@ export default function MapPage() {
   const MapSection = () => {
     // 座標変換関数（緯度経度をSVG座標に変換）
     const latLngToSvg = (lat: number, lng: number) => {
-      // 日本の地理的範囲
+      // 日本の地理的範囲（より正確な範囲）
       const minLat = 24.0
       const maxLat = 46.0
       const minLng = 122.0
@@ -99,13 +99,16 @@ export default function MapPage() {
       // SVGの表示範囲（余白を考慮）
       const svgWidth = 800
       const svgHeight = 600
-      const margin = 50
+      const margin = 40
       
-      // 座標変換
+      // 座標変換（より正確な計算）
       const x = margin + ((lng - minLng) / (maxLng - minLng)) * (svgWidth - 2 * margin)
       const y = margin + ((maxLat - lat) / (maxLat - minLat)) * (svgHeight - 2 * margin)
       
-      return { x: Math.max(margin, Math.min(svgWidth - margin, x)), y: Math.max(margin, Math.min(svgHeight - margin, y)) }
+      return { 
+        x: Math.max(margin, Math.min(svgWidth - margin, x)), 
+        y: Math.max(margin, Math.min(svgHeight - margin, y)) 
+      }
     }
 
     return (
@@ -116,8 +119,8 @@ export default function MapPage() {
             <div className="bg-white rounded-lg shadow-lg px-6 py-3">
               <h2 className="text-xl font-bold text-gray-900">病院を見つける</h2>
               <p className="text-sm text-gray-600">日本全国には{hospitals.length}の病院があります</p>
-            </div>
-          </div>
+                  </div>
+                </div>
 
           {/* SVG日本地図 */}
           <div className="w-full h-full flex items-center justify-center">
@@ -127,32 +130,40 @@ export default function MapPage() {
                 className="w-full h-full"
                 style={{ backgroundColor: '#f0f9ff' }}
               >
-                {/* 日本列島のシンプルなSVGパス */}
-                <g fill="#e0f2fe" stroke="#0ea5e9" strokeWidth="2">
+                {/* 日本列島の詳細なSVGパス */}
+                <g fill="#e0f2fe" stroke="#0ea5e9" strokeWidth="1.5">
                   {/* 北海道 */}
-                  <path d="M 200 80 L 250 75 L 300 85 L 320 105 L 315 135 L 300 155 L 270 165 L 240 160 L 210 145 L 190 120 L 195 95 Z" />
+                  <path d="M 180 60 L 220 55 L 260 65 L 300 75 L 320 95 L 330 125 L 325 155 L 310 175 L 285 185 L 255 180 L 225 170 L 195 155 L 175 135 L 170 110 L 175 85 Z" />
                   
-                  {/* 本州 */}
-                  <path d="M 220 150 L 280 145 L 340 140 L 400 135 L 460 140 L 520 145 L 580 150 L 640 160 L 680 180 L 690 210 L 685 240 L 675 270 L 660 295 L 640 315 L 615 330 L 585 340 L 555 345 L 525 340 L 495 330 L 465 315 L 435 295 L 405 270 L 375 245 L 345 220 L 315 195 L 285 175 L 255 160 L 225 155 Z" />
+                  {/* 本州（より詳細な形状） */}
+                  <path d="M 200 140 L 250 135 L 300 130 L 350 125 L 400 120 L 450 125 L 500 130 L 550 135 L 600 140 L 650 150 L 680 170 L 690 200 L 685 230 L 675 260 L 660 285 L 640 305 L 615 320 L 585 330 L 555 335 L 525 330 L 495 320 L 465 305 L 435 285 L 405 260 L 375 235 L 345 210 L 315 185 L 285 165 L 255 150 L 225 145 Z" />
                   
                   {/* 四国 */}
-                  <path d="M 440 300 L 470 295 L 500 300 L 520 310 L 525 330 L 520 350 L 500 360 L 470 365 L 440 360 L 420 350 L 415 330 L 420 310 Z" />
+                  <path d="M 420 280 L 450 275 L 480 280 L 500 290 L 510 310 L 505 330 L 490 345 L 470 350 L 450 345 L 430 335 L 415 320 L 410 300 L 415 285 Z" />
                   
                   {/* 九州 */}
-                  <path d="M 340 380 L 380 375 L 420 380 L 450 390 L 470 405 L 475 425 L 470 445 L 450 455 L 420 460 L 380 455 L 350 445 L 330 425 L 325 405 L 330 390 Z" />
+                  <path d="M 320 360 L 360 355 L 400 360 L 430 370 L 450 385 L 460 405 L 455 425 L 440 440 L 415 445 L 390 440 L 365 430 L 345 415 L 330 395 L 325 375 L 330 365 Z" />
                   
                   {/* 沖縄 */}
-                  <path d="M 200 500 L 220 495 L 240 500 L 250 510 L 245 525 L 230 535 L 210 540 L 190 535 L 175 525 L 170 510 L 175 500 Z" />
+                  <path d="M 180 480 L 200 475 L 220 480 L 235 490 L 240 505 L 235 520 L 220 530 L 200 535 L 180 530 L 165 520 L 160 505 L 165 490 Z" />
+                  
+                  {/* 小島（伊豆諸島、小笠原諸島など） */}
+                  <circle cx="520" cy="200" r="3" fill="#e0f2fe" stroke="#0ea5e9" />
+                  <circle cx="530" cy="180" r="2" fill="#e0f2fe" stroke="#0ea5e9" />
+                  <circle cx="540" cy="160" r="2" fill="#e0f2fe" stroke="#0ea5e9" />
                 </g>
-
+                
                 {/* 病院マーカー */}
                 {Array.isArray(hospitals) && hospitals.length > 0 ? hospitals.map((hospital: any) => {
                   if (!hospital.lat || !hospital.lng) {
+                    console.log('Hospital missing coordinates:', hospital.name, hospital.lat, hospital.lng)
                     return null
                   }
                   
                   const { x, y } = latLngToSvg(hospital.lat, hospital.lng)
                   const isHovered = hoveredMarker === hospital.id
+                  
+                  console.log('Hospital marker:', hospital.name, 'lat:', hospital.lat, 'lng:', hospital.lng, 'x:', x, 'y:', y)
                   
                   return (
                     <g key={hospital.id}>
@@ -179,28 +190,30 @@ export default function MapPage() {
                         stroke="#ffffff"
                         strokeWidth="3"
                         className="cursor-pointer hover:fill-red-700 transition-colors"
-                        onClick={() => {
-                          console.log('Hospital clicked:', hospital)
-                          setSelectedHospital(hospital)
-                        }}
+                      onClick={() => {
+                        console.log('Hospital clicked:', hospital)
+                        setSelectedHospital(hospital)
+                      }}
                         onMouseEnter={() => setHoveredMarker(hospital.id)}
                         onMouseLeave={() => setHoveredMarker(null)}
                       />
-                      {/* 病院名ラベル（ホバー時のみ表示） */}
-                      {isHovered && (
-                        <text
-                          x={x}
-                          y={y - 20}
-                          textAnchor="middle"
-                          className="text-xs fill-gray-800 pointer-events-none font-medium"
-                          style={{ fontSize: '12px' }}
-                        >
-                          {hospital.name}
-                        </text>
-                      )}
+                      {/* 病院名ラベル（常に表示） */}
+                      <text
+                        x={x}
+                        y={y - 20}
+                        textAnchor="middle"
+                        className="text-xs fill-gray-800 pointer-events-none font-medium"
+                        style={{ fontSize: '10px' }}
+                      >
+                        {hospital.name.length > 8 ? hospital.name.substring(0, 8) + '...' : hospital.name}
+                      </text>
                     </g>
                   )
-                }) : null}
+                }) : (
+                  <text x="400" y="300" textAnchor="middle" fill="red" fontSize="16">
+                    病院データを読み込み中... ({hospitals.length}件)
+                  </text>
+                )}
               </svg>
             </div>
           </div>
@@ -245,7 +258,7 @@ export default function MapPage() {
               </div>
               
               {/* 電話番号 */}
-              <div className="flex items-center">
+            <div className="flex items-center">
                 <Phone className="h-4 w-4 text-gray-600 mr-2" />
                 <span className="text-sm text-gray-900">050-1743-1430</span>
               </div>
@@ -321,28 +334,28 @@ export default function MapPage() {
               </button>
             </div>
             
-            <p className="text-lg text-gray-600 mb-6">{selectedRegion.description}</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">地域の特徴</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedRegion.features?.map((feature: any, index: number) => (
-                    <span
-                      key={index}
-                      className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <p className="text-lg text-gray-600 mb-6">{selectedRegion.description}</p>
               
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">アクセス</h3>
-                <div className="flex items-center text-gray-600">
-                  <Navigation className="h-4 w-4 mr-2" />
-                  <span>{selectedRegion.access_info}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">地域の特徴</h3>
+                  <div className="flex flex-wrap gap-2">
+                  {selectedRegion.features?.map((feature: any, index: number) => (
+                      <span
+                        key={index}
+                        className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">アクセス</h3>
+                    <div className="flex items-center text-gray-600">
+                      <Navigation className="h-4 w-4 mr-2" />
+                      <span>{selectedRegion.access_info}</span>
                 </div>
               </div>
             </div>
@@ -370,63 +383,63 @@ export default function MapPage() {
               </button>
             </div>
             
-            <p className="text-lg text-gray-600 mb-6">{selectedHospital.catch_copy}</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">病院情報</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">住所:</span>
-                    <span className="font-medium">{selectedHospital.address}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">病床数:</span>
-                    <span className="font-medium">{selectedHospital.bed_count}床</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">EHR:</span>
-                    <span className="font-medium">{selectedHospital.ehr_type}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">評価:</span>
-                    <div className="flex items-center">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
-                      <span className="font-medium">{selectedHospital.rating_avg}</span>
-                      <span className="text-gray-500 ml-1">({selectedHospital.review_count}件)</span>
+              <p className="text-lg text-gray-600 mb-6">{selectedHospital.catch_copy}</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">病院情報</h3>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">住所:</span>
+                      <span className="font-medium">{selectedHospital.address}</span>
                     </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">病床数:</span>
+                      <span className="font-medium">{selectedHospital.bed_count}床</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">EHR:</span>
+                      <span className="font-medium">{selectedHospital.ehr_type}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">評価:</span>
+                      <div className="flex items-center">
+                        <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
+                        <span className="font-medium">{selectedHospital.rating_avg}</span>
+                        <span className="text-gray-500 ml-1">({selectedHospital.review_count}件)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">特徴</h3>
+                  <div className="flex flex-wrap gap-2">
+                  {selectedHospital.features?.map((feature: any, index: number) => (
+                      <span
+                        key={index}
+                        className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                      >
+                        {feature}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
               
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">特徴</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedHospital.features?.map((feature: any, index: number) => (
-                    <span
-                      key={index}
-                      className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex space-x-4">
-              <a
-                href="/shifts"
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-              >
-                求人を見る
-              </a>
-              <button
-                onClick={() => setSelectedHospital(null)}
-                className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-              >
-                戻る
-              </button>
+              <div className="flex space-x-4">
+                <a
+                  href="/shifts"
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                >
+                  求人を見る
+                </a>
+                <button
+                  onClick={() => setSelectedHospital(null)}
+                  className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                >
+                  戻る
+                </button>
             </div>
           </div>
         </div>
