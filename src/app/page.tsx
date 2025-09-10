@@ -214,8 +214,8 @@ export default function HomePage() {
               key={region.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
               onClick={() => {
-                // 地図ページで地域を選択して表示
-                window.location.href = `/map?region=${region.id}`
+                // 直接地域詳細ページへ遷移
+                window.location.href = `/region/${region.id}`
               }}
             >
               <div className="relative">

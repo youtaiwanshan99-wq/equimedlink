@@ -25,7 +25,9 @@ export async function GET() {
         popular: true,
         lat: 43.0642,
         lng: 141.3469,
-        access_info: '新千歳空港から車で1時間'
+        access_info: '新千歳空港から車で1時間',
+        catchphrase: '雪と海の恵み、地域とともに育つ医療',
+        tourism_url: 'https://www.visit-hokkaido.jp/'
       },
       {
         id: 'region_2',
@@ -37,7 +39,9 @@ export async function GET() {
         popular: true,
         lat: 35.6762,
         lng: 139.6503,
-        access_info: '成田・羽田空港から電車で1時間'
+        access_info: '成田・羽田空港から電車で1時間',
+        catchphrase: '最先端と地域医療の交差点',
+        tourism_url: 'https://www.gotokyo.org/jp/'
       },
       {
         id: 'region_3',
@@ -49,7 +53,9 @@ export async function GET() {
         popular: false,
         lat: 36.2048,
         lng: 138.2529,
-        access_info: '新幹線で東京から2時間'
+        access_info: '新幹線で東京から2時間',
+        catchphrase: '山々に抱かれ、技を磨く',
+        tourism_url: 'https://www.hokurikukanko.net/'
       },
       {
         id: 'region_4',
@@ -61,7 +67,9 @@ export async function GET() {
         popular: true,
         lat: 34.6937,
         lng: 135.5023,
-        access_info: '関西空港から電車で1時間'
+        access_info: '関西空港から電車で1時間',
+        catchphrase: '千年の都で、人に寄り添う医療',
+        tourism_url: 'https://ja.kyoto.travel/'
       },
       {
         id: 'region_5',
@@ -73,7 +81,9 @@ export async function GET() {
         popular: false,
         lat: 34.3853,
         lng: 132.4553,
-        access_info: '広島空港から車で30分'
+        access_info: '広島空港から車で30分',
+        catchphrase: '海と島がつなぐ地域医療',
+        tourism_url: 'https://hiroshima-welcome.jp/'
       },
       {
         id: 'region_6',
@@ -85,7 +95,9 @@ export async function GET() {
         popular: true,
         lat: 33.5904,
         lng: 130.4017,
-        access_info: '福岡空港から地下鉄で15分'
+        access_info: '福岡空港から地下鉄で15分',
+        catchphrase: '南風とともに、地域に根ざす医療',
+        tourism_url: 'https://www.welcomekyushu.jp/'
       }
     ]
     

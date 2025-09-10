@@ -304,11 +304,16 @@ export default function MapPage() {
   const RegionDetailPage = () => {
     if (!selectedRegion) return null
 
-    // 地域名で病院をフィルタリング（より柔軟なマッチング）
+    // 地域に属する病院をフィルタ（ID/名称/住所/都道府県で幅広くマッチ）
     const regionHospitals = Array.isArray(hospitals) ? hospitals.filter(h => {
-      if (!h.region) return false
-      // 地域名の部分一致で検索
-      return h.region.includes(selectedRegion.name) || selectedRegion.name.includes(h.region)
+      const regionField: string = h.region || h.region_id || h.regionName || ''
+      const address: string = h.address || ''
+      const prefecture: string = h.prefecture || ''
+      const prefectures: string[] = Array.isArray(selectedRegion.prefectures) ? selectedRegion.prefectures : []
+      const byRegionId = regionField === selectedRegion.id || regionField.includes(selectedRegion.id) || selectedRegion.id?.includes(regionField)
+      const byRegionName = regionField.includes(selectedRegion.name) || selectedRegion.name?.includes(regionField)
+      const byPrefecture = prefectures.some((p: string) => address.includes(p) || prefecture.includes(p))
+      return byRegionId || byRegionName || byPrefecture
     }) : []
 
     return (
@@ -324,7 +329,10 @@ export default function MapPage() {
             </div>
             
             <div className="p-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">{selectedRegion.name}</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">{selectedRegion.name}</h1>
+              {selectedRegion.catchphrase && (
+                <p className="text-xl text-gray-800 mb-2">{selectedRegion.catchphrase}</p>
+              )}
               <p className="text-lg text-gray-600 mb-6">{selectedRegion.description}</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -349,12 +357,44 @@ export default function MapPage() {
                       <Navigation className="h-4 w-4 mr-2" />
                       <span>{selectedRegion.access_info}</span>
                     </div>
+                    {selectedRegion.tourism_url && (
+                      <div className="pt-2">
+                        <a
+                          href={selectedRegion.tourism_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          公式観光情報を見る
+                          <ChevronRight className="h-4 w-4 ml-1" />
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
           
+          {/* 都道府県カード */}
+          {Array.isArray(selectedRegion.prefectures) && selectedRegion.prefectures.length > 0 && (
+            <div className="mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">都道府県を選ぶ</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                {selectedRegion.prefectures.map((p: string) => (
+                  <a key={p} href={`/prefecture?name=${encodeURIComponent(p)}`} className="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                    <div className="relative">
+                      <img src={`https://source.unsplash.com/400x240/?${encodeURIComponent(p)}`} alt={p} className="w-full h-28 object-cover" />
+                    </div>
+                    <div className="px-3 py-3">
+                      <div className="text-center font-semibold text-gray-900">{p}</div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               この地域の病院 ({regionHospitals.length}件)
