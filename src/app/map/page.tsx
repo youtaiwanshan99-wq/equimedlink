@@ -87,197 +87,192 @@ export default function MapPage() {
 
   // 地図セクション
   const MapSection = () => {
-    const [mapImageSrc, setMapImageSrc] = useState('/japan-map-green.png')
-    const [showFallback, setShowFallback] = useState(false)
-    
-    // デバッグ用のログ
-    console.log('MapSection rendered')
-    console.log('Regions:', regions)
-    console.log('Hospitals:', hospitals)
-
-    const handleImageError = () => {
-      console.log('Primary image failed, trying alternatives...')
+    // 座標変換関数（緯度経度をSVG座標に変換）
+    const latLngToSvg = (lat: number, lng: number) => {
+      // 日本の地理的範囲
+      const minLat = 24.0
+      const maxLat = 46.0
+      const minLng = 122.0
+      const maxLng = 146.0
       
-      // 代替画像を試す
-      const alternatives = [
-        '/japan-map-green.png',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Map_of_Japan_with_prefectures.svg/800px-Map_of_Japan_with_prefectures.svg.png',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Map_of_Japan_with_prefectures.svg/600px-Map_of_Japan_with_prefectures.svg.png'
-      ]
+      // SVGの表示範囲（余白を考慮）
+      const svgWidth = 800
+      const svgHeight = 600
+      const margin = 50
       
-      const currentIndex = alternatives.indexOf(mapImageSrc)
-      if (currentIndex < alternatives.length - 1) {
-        setMapImageSrc(alternatives[currentIndex + 1])
-      } else {
-        setShowFallback(true)
-      }
+      // 座標変換
+      const x = margin + ((lng - minLng) / (maxLng - minLng)) * (svgWidth - 2 * margin)
+      const y = margin + ((maxLat - lat) / (maxLat - minLat)) * (svgHeight - 2 * margin)
+      
+      return { x: Math.max(margin, Math.min(svgWidth - margin, x)), y: Math.max(margin, Math.min(svgHeight - margin, y)) }
     }
 
     return (
       <div className="relative">
         <div className="h-screen bg-gray-100 relative">
-          {/* 日本地図画像 */}
+          {/* SVG日本地図 */}
           <div className="w-full h-full flex items-center justify-center bg-gray-100">
-            <div className="relative w-full h-full">
-              {!showFallback ? (
-                <img
-                  src={mapImageSrc}
-                  alt="日本地図"
-                  className="w-full h-full object-contain"
-                  style={{ 
-                    backgroundColor: '#f8f9fa'
-                  }}
-                  onLoad={() => {
-                    console.log('Map image loaded successfully:', mapImageSrc)
-                  }}
-                  onError={handleImageError}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                  <div className="text-center text-gray-600">
-                    <div className="text-6xl mb-4">🗾</div>
-                    <div className="text-2xl font-bold">日本地図</div>
-                    <div className="text-lg">地域を選択してください</div>
-                    <button 
-                      onClick={() => {
-                        setShowFallback(false)
-                        setMapImageSrc('/japan-map-green.png')
-                      }}
-                      className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                    >
-                      地図を再読み込み
-                    </button>
-                  </div>
-                </div>
-              )}
-              
-              {/* 地域マーカーを地図上に配置 */}
-              <div className="absolute inset-0">
+            <div className="relative w-full h-full max-w-4xl max-h-full">
+              <svg
+                viewBox="0 0 800 600"
+                className="w-full h-full"
+                style={{ backgroundColor: '#f8f9fa' }}
+              >
+                {/* 日本列島の詳細SVGパス */}
+                <g fill="#e5e7eb" stroke="#9ca3af" strokeWidth="1">
+                  {/* 北海道 */}
+                  <path d="M 180 60 L 220 55 L 260 65 L 300 75 L 320 95 L 330 125 L 325 155 L 310 175 L 285 185 L 255 180 L 225 170 L 195 155 L 175 135 L 170 110 L 175 85 Z" />
+                  
+                  {/* 本州（より詳細な形状） */}
+                  <path d="M 200 140 L 250 135 L 300 130 L 350 125 L 400 120 L 450 125 L 500 130 L 550 135 L 600 140 L 650 150 L 680 170 L 690 200 L 685 230 L 675 260 L 660 285 L 640 305 L 615 320 L 585 330 L 555 335 L 525 330 L 495 320 L 465 305 L 435 285 L 405 260 L 375 235 L 345 210 L 315 185 L 285 165 L 255 150 L 225 145 Z" />
+                  
+                  {/* 四国 */}
+                  <path d="M 420 280 L 450 275 L 480 280 L 500 290 L 510 310 L 505 330 L 490 345 L 470 350 L 450 345 L 430 335 L 415 320 L 410 300 L 415 285 Z" />
+                  
+                  {/* 九州 */}
+                  <path d="M 320 360 L 360 355 L 400 360 L 430 370 L 450 385 L 460 405 L 455 425 L 440 440 L 415 445 L 390 440 L 365 430 L 345 415 L 330 395 L 325 375 L 330 365 Z" />
+                  
+                  {/* 沖縄 */}
+                  <path d="M 180 480 L 200 475 L 220 480 L 235 490 L 240 505 L 235 520 L 220 530 L 200 535 L 180 530 L 165 520 L 160 505 L 165 490 Z" />
+                  
+                  {/* 小島（伊豆諸島、小笠原諸島など） */}
+                  <circle cx="520" cy="200" r="3" fill="#e5e7eb" stroke="#9ca3af" />
+                  <circle cx="530" cy="180" r="2" fill="#e5e7eb" stroke="#9ca3af" />
+                  <circle cx="540" cy="160" r="2" fill="#e5e7eb" stroke="#9ca3af" />
+                </g>
+
+                {/* 地域マーカー */}
                 {Array.isArray(regions) && regions.length > 0 ? regions.map((region: any) => {
                   if (!region.lat || !region.lng) {
-                    console.log('Region missing coordinates:', region)
                     return null
                   }
                   
-                  // 日本地図用の座標変換（実際の地図画像に合わせて調整）
-                  // 地図画像の実際の表示範囲を考慮
-                  let x, y
-                  
-                  // 地域別の特別処理
-                  if (region.name.includes('九州') || region.name.includes('沖縄')) {
-                    // 九州・沖縄は地図の右下に小さく表示される
-                    x = 90 + ((region.lng - 127) / 4) * 6 // 90-96%の範囲
-                    y = 85 + ((33 - region.lat) / 9) * 10 // 85-95%の範囲
-                  } else if (region.name.includes('北海道')) {
-                    // 北海道は地図の上部に表示される
-                    x = 15 + ((region.lng - 140) / 6) * 20 // 15-35%の範囲
-                    y = 5 + ((46 - region.lat) / 4) * 15 // 5-20%の範囲
-                  } else {
-                    // 本州・四国
-                    x = 10 + ((region.lng - 128) / 18) * 75 // 10-85%の範囲
-                    y = 15 + ((46 - region.lat) / 22) * 65 // 15-80%の範囲
-                  }
-                  
-                  console.log(`Region ${region.name}: lat=${region.lat}, lng=${region.lng}, x=${x}%, y=${y}%`)
+                  const { x, y } = latLngToSvg(region.lat, region.lng)
                   
                   return (
-                    <div
-                      key={region.id}
-                      className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10"
-                      style={{ left: `${Math.max(0, Math.min(100, x))}%`, top: `${Math.max(0, Math.min(100, y))}%` }}
-                      onClick={() => {
-                        console.log('Region clicked:', region)
-                        setSelectedRegion(region)
-                      }}
-                    >
-                      <div className="w-6 h-6 bg-blue-500 rounded-full border-2 border-white shadow-lg hover:bg-blue-600 transition-colors"></div>
-                      <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow text-xs whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+                    <g key={region.id}>
+                      {/* ホバー時の背景円 */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="12"
+                        fill="transparent"
+                        className="cursor-pointer hover:fill-blue-100 transition-colors"
+                        onClick={() => {
+                          console.log('Region clicked:', region)
+                          setSelectedRegion(region)
+                        }}
+                      />
+                      {/* メインのマーカー */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="8"
+                        fill="#3b82f6"
+                        stroke="#ffffff"
+                        strokeWidth="2"
+                        className="cursor-pointer hover:fill-blue-600 transition-colors"
+                        onClick={() => {
+                          console.log('Region clicked:', region)
+                          setSelectedRegion(region)
+                        }}
+                      />
+                      {/* 地域名ラベル */}
+                      <text
+                        x={x}
+                        y={y - 20}
+                        textAnchor="middle"
+                        className="text-xs fill-gray-700 pointer-events-none font-medium"
+                        style={{ fontSize: '11px' }}
+                      >
                         {region.name}
-                      </div>
-                    </div>
+                      </text>
+                    </g>
                   )
-                }) : (
-                  <div className="absolute top-4 left-4 bg-yellow-100 p-2 rounded">
-                    <p className="text-sm">地域データがありません</p>
-                  </div>
-                )}
+                }) : null}
                 
                 {/* 病院マーカー */}
                 {Array.isArray(hospitals) && hospitals.length > 0 ? hospitals.map((hospital: any) => {
                   if (!hospital.lat || !hospital.lng) {
-                    console.log('Hospital missing coordinates:', hospital)
                     return null
                   }
                   
-                  // 病院の座標変換（地域と同じロジック）
-                  let x, y
-                  
-                  // 地域別の特別処理
-                  if (hospital.lat < 33 && hospital.lng < 131) {
-                    // 九州・沖縄は地図の右下に小さく表示される
-                    x = 90 + ((hospital.lng - 127) / 4) * 6 // 90-96%の範囲
-                    y = 85 + ((33 - hospital.lat) / 9) * 10 // 85-95%の範囲
-                  } else if (hospital.lat > 42) {
-                    // 北海道は地図の上部に表示される
-                    x = 15 + ((hospital.lng - 140) / 6) * 20 // 15-35%の範囲
-                    y = 5 + ((46 - hospital.lat) / 4) * 15 // 5-20%の範囲
-                  } else {
-                    // 本州・四国
-                    x = 10 + ((hospital.lng - 128) / 18) * 75 // 10-85%の範囲
-                    y = 15 + ((46 - hospital.lat) / 22) * 65 // 15-80%の範囲
-                  }
-                  
-                  console.log(`Hospital ${hospital.name}: lat=${hospital.lat}, lng=${hospital.lng}, x=${x}%, y=${y}%`)
+                  const { x, y } = latLngToSvg(hospital.lat, hospital.lng)
                   
                   return (
-                    <div
-                      key={hospital.id}
-                      className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10"
-                      style={{ left: `${Math.max(0, Math.min(100, x))}%`, top: `${Math.max(0, Math.min(100, y))}%` }}
-                      onClick={() => {
-                        console.log('Hospital clicked:', hospital)
-                        setSelectedHospital(hospital)
-                      }}
-                    >
-                      <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg hover:bg-red-600 transition-colors"></div>
-                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow text-xs whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-                        {hospital.name}
-                      </div>
-                    </div>
+                    <g key={hospital.id}>
+                      {/* ホバー時の背景円 */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="10"
+                        fill="transparent"
+                        className="cursor-pointer hover:fill-red-100 transition-colors"
+                        onClick={() => {
+                          console.log('Hospital clicked:', hospital)
+                          setSelectedHospital(hospital)
+                        }}
+                      />
+                      {/* メインのマーカー */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="6"
+                        fill="#ef4444"
+                        stroke="#ffffff"
+                        strokeWidth="2"
+                        className="cursor-pointer hover:fill-red-600 transition-colors"
+                        onClick={() => {
+                          console.log('Hospital clicked:', hospital)
+                          setSelectedHospital(hospital)
+                        }}
+                      />
+                      {/* 病院名ラベル（ホバー時のみ表示） */}
+                      <text
+                        x={x}
+                        y={y + 25}
+                        textAnchor="middle"
+                        className="text-xs fill-gray-700 pointer-events-none opacity-0 hover:opacity-100 transition-opacity"
+                        style={{ fontSize: '9px' }}
+                      >
+                        {hospital.name.length > 10 ? hospital.name.substring(0, 10) + '...' : hospital.name}
+                      </text>
+                    </g>
                   )
-                }) : (
-                  <div className="absolute top-16 left-4 bg-yellow-100 p-2 rounded">
-                    <p className="text-sm">病院データがありません</p>
-                  </div>
-                )}
-              </div>
+                }) : null}
+              </svg>
             </div>
           </div>
         </div>
         
         {/* 地図の凡例 */}
         <div className="absolute top-4 right-4 bg-white rounded-lg shadow-lg p-4 z-20">
-          <h3 className="font-semibold text-gray-900 mb-2">凡例</h3>
-          <div className="space-y-2">
+          <h3 className="font-semibold text-gray-900 mb-3">凡例</h3>
+          <div className="space-y-3">
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-              <span className="text-sm text-gray-700">地域</span>
+              <div className="w-6 h-6 bg-blue-500 rounded-full mr-3 border-2 border-white"></div>
+              <span className="text-sm text-gray-700 font-medium">地域</span>
             </div>
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
-              <span className="text-sm text-gray-700">病院</span>
+              <div className="w-6 h-6 bg-red-500 rounded-full mr-3 border-2 border-white"></div>
+              <span className="text-sm text-gray-700 font-medium">病院</span>
             </div>
+          </div>
+          <div className="mt-4 pt-3 border-t border-gray-200">
+            <p className="text-xs text-gray-500">
+              マーカーをクリックして詳細を表示
+            </p>
           </div>
         </div>
 
         {/* 地域リスト */}
-        <div className="absolute bottom-4 left-4 w-80 bg-white rounded-lg shadow-lg p-4 max-h-64 overflow-y-auto z-20">
+        <div className="absolute bottom-4 left-4 w-80 bg-white rounded-lg shadow-lg p-4 max-h-80 overflow-y-auto z-20">
           <h3 className="font-semibold text-gray-900 mb-3">地域一覧</h3>
           <div className="space-y-2">
             {Array.isArray(regions) && regions.length > 0 ? regions.map((region: any) => (
               <div
                 key={region.id}
-                className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer"
+                className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
                 onClick={() => {
                   console.log('Region list item clicked:', region)
                   setSelectedRegion(region)
@@ -286,6 +281,16 @@ export default function MapPage() {
                 <div className="flex-1">
                   <h4 className="font-medium text-gray-900">{region.name}</h4>
                   <p className="text-sm text-gray-600 truncate">{region.description}</p>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {region.features?.slice(0, 2).map((feature: string, index: number) => (
+                      <span
+                        key={index}
+                        className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-gray-400 ml-2" />
               </div>
@@ -294,6 +299,21 @@ export default function MapPage() {
                 <p className="text-gray-500">地域データを読み込み中...</p>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* 病院統計情報 */}
+        <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-4 z-20">
+          <h3 className="font-semibold text-gray-900 mb-2">統計情報</h3>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">地域数:</span>
+              <span className="text-sm font-medium text-gray-900">{regions.length}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">病院数:</span>
+              <span className="text-sm font-medium text-gray-900">{hospitals.length}</span>
+            </div>
           </div>
         </div>
       </div>
