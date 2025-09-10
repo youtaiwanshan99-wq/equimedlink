@@ -43,6 +43,8 @@ export default function MapPage() {
       const hospitalsRes = await fetch('/api/hospitals')
       if (hospitalsRes.ok) {
         const hospitalsData = await hospitalsRes.json()
+        console.log('Hospitals data:', hospitalsData)
+        console.log('Hospitals count:', hospitalsData.length)
         setHospitals(Array.isArray(hospitalsData) ? hospitalsData : [])
       }
     } catch (error) {
@@ -142,36 +144,27 @@ export default function MapPage() {
                 className="w-full h-full relative z-10"
                 style={{ backgroundColor: 'transparent' }}
               >
-                {/* 日本列島のSVGパス（確実に表示される形状） */}
+                {/* 日本列島の正確なSVGパス */}
                 <g fill="#e0f2fe" stroke="#0ea5e9" strokeWidth="2">
                   {/* 北海道 */}
-                  <path d="M 200 80 L 250 75 L 300 85 L 320 105 L 315 135 L 300 155 L 270 165 L 240 160 L 210 145 L 190 120 L 195 95 Z" />
+                  <path d="M 180 60 L 220 55 L 260 65 L 300 75 L 320 95 L 330 125 L 325 155 L 310 175 L 285 185 L 255 180 L 225 170 L 195 155 L 175 135 L 170 110 L 175 85 Z" />
                   
-                  {/* 本州 */}
-                  <path d="M 220 150 L 280 145 L 340 140 L 400 135 L 460 140 L 520 145 L 580 150 L 640 160 L 680 180 L 690 210 L 685 240 L 675 270 L 660 295 L 640 315 L 615 330 L 585 340 L 555 345 L 525 340 L 495 330 L 465 315 L 435 295 L 405 270 L 375 245 L 345 220 L 315 195 L 285 175 L 255 160 L 225 155 Z" />
+                  {/* 本州（より詳細な形状） */}
+                  <path d="M 200 140 L 250 135 L 300 130 L 350 125 L 400 120 L 450 125 L 500 130 L 550 135 L 600 140 L 650 150 L 680 170 L 690 200 L 685 230 L 675 260 L 660 285 L 640 305 L 615 320 L 585 330 L 555 335 L 525 330 L 495 320 L 465 305 L 435 285 L 405 260 L 375 235 L 345 210 L 315 185 L 285 165 L 255 150 L 225 145 Z" />
                   
                   {/* 四国 */}
-                  <path d="M 440 300 L 470 295 L 500 300 L 520 310 L 525 330 L 520 350 L 500 360 L 470 365 L 440 360 L 420 350 L 415 330 L 420 310 Z" />
+                  <path d="M 420 280 L 450 275 L 480 280 L 500 290 L 510 310 L 505 330 L 490 345 L 470 350 L 450 345 L 430 335 L 415 320 L 410 300 L 415 285 Z" />
                   
                   {/* 九州 */}
-                  <path d="M 340 380 L 380 375 L 420 380 L 450 390 L 470 405 L 475 425 L 470 445 L 450 455 L 420 460 L 380 455 L 350 445 L 330 425 L 325 405 L 330 390 Z" />
+                  <path d="M 320 360 L 360 355 L 400 360 L 430 370 L 450 385 L 460 405 L 455 425 L 440 440 L 415 445 L 390 440 L 365 430 L 345 415 L 330 395 L 325 375 L 330 365 Z" />
                   
                   {/* 沖縄 */}
-                  <path d="M 200 500 L 220 495 L 240 500 L 250 510 L 245 525 L 230 535 L 210 540 L 190 535 L 175 525 L 170 510 L 175 500 Z" />
+                  <path d="M 180 480 L 200 475 L 220 480 L 235 490 L 240 505 L 235 520 L 220 530 L 200 535 L 180 530 L 165 520 L 160 505 L 165 490 Z" />
                   
-                  {/* 小島 */}
-                  <circle cx="520" cy="200" r="4" fill="#e0f2fe" stroke="#0ea5e9" />
-                  <circle cx="530" cy="180" r="3" fill="#e0f2fe" stroke="#0ea5e9" />
-                  <circle cx="540" cy="160" r="3" fill="#e0f2fe" stroke="#0ea5e9" />
-                </g>
-                
-                {/* フォールバック：シンプルな日本地図の矩形 */}
-                <g fill="#dbeafe" stroke="#3b82f6" strokeWidth="1" opacity="0.3">
-                  <rect x="180" y="80" width="120" height="100" rx="10" />
-                  <rect x="220" y="150" width="480" height="200" rx="15" />
-                  <rect x="440" y="300" width="80" height="60" rx="8" />
-                  <rect x="340" y="380" width="120" height="80" rx="10" />
-                  <rect x="200" y="500" width="50" height="40" rx="5" />
+                  {/* 小島（伊豆諸島、小笠原諸島など） */}
+                  <circle cx="520" cy="200" r="3" fill="#e0f2fe" stroke="#0ea5e9" />
+                  <circle cx="530" cy="180" r="2" fill="#e0f2fe" stroke="#0ea5e9" />
+                  <circle cx="540" cy="160" r="2" fill="#e0f2fe" stroke="#0ea5e9" />
                 </g>
                 
                 {/* デバッグ用：地図の境界線 */}
@@ -214,10 +207,10 @@ export default function MapPage() {
                         stroke="#ffffff"
                         strokeWidth="3"
                         className="cursor-pointer hover:fill-red-700 transition-colors"
-                      onClick={() => {
-                        console.log('Hospital clicked:', hospital)
-                        setSelectedHospital(hospital)
-                      }}
+                        onClick={() => {
+                          console.log('Hospital clicked:', hospital)
+                          setSelectedHospital(hospital)
+                        }}
                         onMouseEnter={() => setHoveredMarker(hospital.id)}
                         onMouseLeave={() => setHoveredMarker(null)}
                       />
@@ -235,9 +228,14 @@ export default function MapPage() {
                   )
                 }) : (
                   <text x="400" y="300" textAnchor="middle" fill="red" fontSize="16">
-                    病院データを読み込み中... ({hospitals.length}件)
+                    病院データを読み込み中... (現在: {hospitals ? hospitals.length : 0}件)
                   </text>
                 )}
+                
+                {/* デバッグ情報 */}
+                <text x="50" y="50" fill="red" fontSize="12">
+                  病院数: {hospitals ? hospitals.length : 0}件
+                </text>
               </svg>
             </div>
           </div>
